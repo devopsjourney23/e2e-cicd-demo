@@ -11,17 +11,6 @@ pipeline{
                 sh 'echo passeed'
                 h//git branch: 'main', url: 'https://github.com/devopsjourney23/e2e-cicd-demo.git'
             }
-            post{
-                always{
-                    echo "========always========"
-                }
-                success{
-                    echo "========A executed successfully========"
-                }
-                failure{
-                    echo "========A execution failed========"
-                }
-            }
         }
         stage('Build and Test'){
             steps {
@@ -29,28 +18,6 @@ pipeline{
                 // build the project and create a JAR file
                 sh 'cd cicd-pipeline-01/spring-boot-app && mvn clean package'
             }
-            post{
-                always{
-                    echo "========always========"
-                }
-                success{
-                    echo "========A executed successfully========"
-                }
-                failure{
-                    echo "========A execution failed========"
-                }
-            }
-    }
-    post{
-        always{
-            echo "========always========"
-        }
-        success{
-            echo "========pipeline executed successfully ========"
-        }
-        failure{
-            echo "========pipeline execution failed========"
         }
     }
-}
 }
