@@ -19,5 +19,12 @@ pipeline{
                 sh 'cd cicd-pipeline-01/spring-boot-app && mvn clean package'
             }
         }
+        stage('SonarQube Code Inspection'){
+            steps{
+                withSonarQubeEnv('my-sonarqube') {
+                    sh 'cd cicd-pipeline-01/spring-boot-app && mvn sonar:sonar
+                }
+            }
+        }
     }
 }
