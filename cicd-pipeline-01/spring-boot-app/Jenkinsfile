@@ -52,6 +52,7 @@ pipeline{
                 sh '''
                     git config --global user.email "lax.aws1@gmail.com"
                     git config --global user.name "devopsjourney23"
+                    git config --global --add safe.directory /var/lib/jenkins/workspace/cicd-pipeline-01   // To fix error fatal: detected dubious ownership in repository at '/var/lib/jenkins/workspace/cicd-pipeline-01'
                     BUILD_NUMBER=${BUILD_NUMBER}
                     sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" cicd-pipeline-01/spring-boot-app-manifests/deployment.yaml
                     git add cicd-pipeline-01/spring-boot-app-manifests/deployment.yaml
