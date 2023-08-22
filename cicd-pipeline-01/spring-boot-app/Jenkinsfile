@@ -13,7 +13,7 @@ pipeline{
             }
         }
         stage('Build and Test'){
-            steps {
+            steps{
                 sh 'ls -ltr'
                 // build the project and create a JAR file
                 sh 'cd cicd-pipeline-01/spring-boot-app && mvn clean package'
@@ -23,6 +23,22 @@ pipeline{
             steps{
                 withSonarQubeEnv('my-sonarqube') {
                     sh 'cd cicd-pipeline-01/spring-boot-app && mvn sonar:sonar'
+                }
+            }
+        }
+        stage('Build and Push Docker Image'){
+            environment {
+              DOCKER_IMAGE = "lax/cicd-pipeline-demo:${BUILD_NUMBER}"
+              DOCKERFILE_LOCATION = "cicd-pipeline-01/spring-boot-app/Dockerfile"
+              REGISTRY_CREDENTIALS = credentials('docker-cred')
+            }
+            steps{
+                script {
+                  sh 'cd cicd-pipeline-demo/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
+                  def dockerImage = docker.image("${DOCKER_IMAGE}")
+                  docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
+                  dockerImage.push()
+                  }
                 }
             }
         }
