@@ -41,6 +41,25 @@ pipeline{
                   }
                 }
             }
+        stage('Update Deployment File') {
+            environment {
+              GIT_REPO_NAME = "e2e-cicd-demo"
+              GIT_USER_NAME = "devopsjourney23"
+            }
+            steps {
+              withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+                sh '''
+                    git config user.email "lax.aws1@gmail.com"
+                    git config user.name "devopsjourney23"
+                    BUILD_NUMBER=${BUILD_NUMBER}
+                    sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" cicd-pipeline-01/spring-boot-app-manifests/deployment.yaml
+                    git add cicd-pipeline-01/spring-boot-app-manifests/deployment.yaml
+                    git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
+                '''
+            }
+        }
+
         }
     }
 }
