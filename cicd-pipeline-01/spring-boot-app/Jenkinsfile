@@ -9,7 +9,7 @@ pipeline{
         stage("Checkout"){
             steps{
                 sh 'echo passeed'
-                //git branch: 'main', url: 'https://github.com/devopsjourney23/e2e-cicd-demo.git'
+                git branch: 'master', url: 'https://github.com/devopsjourney23/e2e-cicd-demo.git'
             }
         }
         stage('Build and Test'){
