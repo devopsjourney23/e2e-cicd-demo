@@ -9,6 +9,7 @@ pipeline{
         stage("Checkout"){
             steps{
                 sh 'echo passeed'
+                sh 'echo test webhook'
                 //git branch: 'master', url: 'https://github.com/devopsjourney23/e2e-cicd-demo.git'
                 //checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/devopsjourney23/e2e-cicd-demo.git']])
 
